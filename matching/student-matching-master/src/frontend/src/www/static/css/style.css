@@ -1,0 +1,453 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+/* ---------------------------------------------------
+    GENERAL STYLES
+----------------------------------------------------- */
+
+code {
+    font-family: 'Inconsolata', monospace;
+    background: #f4f4f4;
+    color: black !important;
+    padding: 4px;
+    font-size: 1.0em;
+    border-radius: 3px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+}
+
+p, label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: black;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+table th, table td {
+    font-family: 'Poppins', sans-serif;
+    font-size:0.9em;
+    font-weight: 300;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-icon { height: 20px; }
+
+.mmm-btn {
+    cursor: pointer;
+    max-height: 40px;
+    margin: 10px 0 0 0;
+    background: rgb(100,216,226);
+    border: none;
+    vertical-align: middle;
+}
+
+.mmm-btn-disabled {
+    cursor: default !important;
+    background: rgb(226,226,226) !important;
+}
+
+.mmm-btn p {
+    font-size: 0.8em;
+    color: white;
+    text-transform: uppercase;
+    display: inline;
+}
+
+.mmm-btn div { padding: 5px 25px 5px 20px; }
+
+.menu-icon { height: 15px; }
+
+button a {
+    width: 100%;
+    height: 100%;
+}
+
+/* title for each main section */
+.page-title {
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+/* MODALS */
+.modal-header .close {
+    position: absolute;
+    right: 0.6em;
+    top: 0.4em;
+    outline:0;
+}
+
+.modal-title {
+    font-size: 1.2em;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+.modal-body p {
+    font-size: 0.8em;
+    font-weight: 300;
+}
+
+.modal-body code {
+    font-size: 1em;
+    font-weight: 300;
+}
+
+#gloader{
+    height:0.2em;
+}
+
+#gloader .progressbar{
+    background-color: rgb(100,216,226);
+}
+
+/* ---------------------------------------------------
+    SIDEBAR
+----------------------------------------------------- */
+
+.sidebar-header #logo { width: 100%; }
+
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0);
+    color: black;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    width: 250px;
+    padding: 20px;
+    background: rgba(225, 225, 225, 0);
+}
+
+#sidebar ul.components { padding: 20px 0; }
+
+#sidebar ul p { padding: 10px; }
+
+#sidebar ul li a {
+    cursor: pointer;
+    text-align: center;
+    padding: 20px 20px 20px 10px;
+    font-size: 0.9em;
+    font-weight: 400;
+    display: block;
+    text-transform: uppercase;
+}
+
+#sidebar ul li a:hover { background: rgba(100, 216, 226, 0.25); }
+
+/* down/up arrow for "recent" tab */
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content:'<';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-size: 1.2em;
+}
+
+a[aria-expanded="true"]::before { content: '>'; }
+
+/* submenu contents */
+ul ul a {
+    font-size: 0.8em !important;
+    padding-left: 30px !important;
+    background: rgba(225, 225, 225, 0);
+}
+
+.btn-sidebar-active { background-color: rgba(100,216,226, 0.7); }
+
+/* loader */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid rgb(71,203,214);
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+  margin: 20px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* ---------------------------------------------------
+    MAIN CONTENT AREA STYLE
+----------------------------------------------------- */
+#content {
+    overflow:auto;
+    width: calc(100% - 300px);
+    padding: 40px 40px 40px 15px;
+    height: calc(100% - 40px);
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* ---------------------------------------------------
+    LOGIN
+----------------------------------------------------- */
+
+div#login input {
+    border:solid 1px darkgrey;
+    width:75%;
+    padding: 5px;
+    font-weight: 100;
+    font-size: 0.8em;
+}
+
+/* ---------------------------------------------------
+    STEP 1
+----------------------------------------------------- */
+
+#newmatch_step1_table {
+    font-size: 0.8em;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 90%;
+}
+
+#newmatch_step1_table th {
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/* ---------------------------------------------------
+    LAST MATCH SECTION
+----------------------------------------------------- */
+
+i.fa.fa-th-list {
+    background: url('../img/modules-black.png') no-repeat top left;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background-size: 15px 15px;
+    position: relative;
+    top:1px;
+}
+
+button.btn.btn-secondary.dropdown-toggle {
+    background-color:white;
+    color:black;
+    border-color: lightgrey;
+}
+
+#table-wrapper, #table-wrapper .search input, button.btn.btn-secondary.dropdown-toggle, div.keep-open.btn-group, ul.pagination li a, .pagination-detail {
+    font-size: 0.8em !important;
+    line-height: 0.8em !important;
+}
+
+#table-wrapper .fixed-table-toolbar .float-right, #table-wrapper .fixed-table-toolbar .float-left, .pagination-detail {
+    margin-top: 0 !important;
+}
+
+.bootstrap-table div .th-inner {
+    text-align: center !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+}
+
+.fixed-table-header { border-bottom: solid 1px lightgrey; }
+
+.left-panel { grid-area: left; }
+.right-panel { grid-area: right; border: 1px solid lightgrey; padding: 15px !important; }
+.bottom-left-panel { grid-area: bottom-left; }
+.bottom-right-panel { grid-area: bottom-right; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'left left left left right'
+    'left left left left right'
+    'bottom-left bottom-left bottom-left bottom-left bottom-right';
+    grid-gap: 15px;
+}
+
+.business { background-color: darkblue !important;}
+.education { background-color: grey !important;}
+.engineering { background-color: purple !important; margin: 0 1px 0 1px;}
+.energy { background-color: saddlebrown !important; margin: 0 1px 0 1px;}
+.health { background-color: red !important; margin: 0 1px 0 1px;}
+.science { background-color: green !important; margin: 0 1px 0 1px;}
+.social { background-color: orange !important; margin: 0 1px 0 1px;}
+
+.row-selected td { background-color: rgba(255,76,162,0.4) !important; }
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th { background-color: rgb(255,237,246) !important; }
+
+.current-group {
+    position: relative;
+    height: 400px;
+    max-width: 250px;
+    overflow: auto;
+    margin-top: 10px;
+    display: none;
+}
+
+#manual-table {
+    margin: 15px 15px 15px 15px;
+    font-size: 0.9em;
+    /* width: 100%; */
+}
+
+#manual-table select {
+    font-size: 0.9em;
+    max-height: 30px;
+}
+
+#manual-table td {
+    padding: 6px;
+}
+
+div.caption {
+    text-transform: uppercase;
+    font-weight: 500;
+	/* margin-top: 5px; */
+}
+
+table.group-table { width: 100%; }
+
+table.group-table tr { line-height:18px; }
+
+select.filter-control-faculty {
+	font-size: 0.8em;
+	height: 15px;
+}
+
+.filter-control .form-control {
+    font-size: 11px;
+    margin: 0px;
+}
+
+.highlight-row { background-color: rgba(255,76,162,0.4); }
+
+.dropdown-item {
+    font-size: 0.7em !important;
+    font-weight: lighter !important;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 170px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    padding: 10px;
+    z-index: 1;
+    right: 18px;
+    border: 1px solid lightgray;
+}
+
+.dropdown ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.dropdown li p {
+    padding: 0;
+    cursor: pointer;
+}
+
+.dropdown li hr {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.dropdown li:hover { background-color: rgb(255,237,246); cursor: pointer; }
+.dropdown li hr:hover { background-color: transparent !important; cursor: default !important; }
+
+th[data-field='faculty'] > :first-child{
+    position:absolute;
+    top:0;
+}
+
+.bootstrap-table-filter-control-faculty{
+    height:25px !important;
+}
+
+/* ---------------------------------------------------
+    FOOTER
+----------------------------------------------------- */
+
+footer {
+    background: rgb(226, 226, 226);
+    position: fixed;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7em;
+    bottom: 0;
+    vertical-align: middle;
+}
+
+footer p {
+    color: #999;
+    line-height: 40px;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+/* @media (max-width: 768px) {
+
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #content {
+        width: 100%;
+    }
+
+    #content.active {
+        width: calc(100% - 250px);
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+} */
+
+.vspacing {
+    margin-top:15px;
+}

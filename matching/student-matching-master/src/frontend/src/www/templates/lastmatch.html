@@ -1,0 +1,252 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.css') }}">
+<link href="{{ url_for('static', filename='css/bootstrap-table-filter-control.css') }}" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"> -->
+
+<p class="page-title">LAST MATCH</p>
+
+<!-- <button id="test-btn">checbox test</button> -->
+<div class="grid-container" id="table-wrapper">
+    <div class="left-panel">
+      <table style="padding:0; margin:0; cursor:pointer;" id="last-match-table"
+              data-classes="table table-hover"
+              data-toolbar="#toolbar"
+              data-toggle="table"
+              data-height="580"
+              data-sort-name="surname"
+              data-sort-order="asc"
+              data-search="true"
+              data-strict-search="true"
+		data-show-columns="true"
+              data-minimum-count-columns="2"
+              data-id-field="id"
+              data-pagination-loop="false"
+              data-maintain-selected="true"
+              data-row-style="rowStyle"
+              data-unique-id="student_id"
+              data-filter-control="true">
+          <thead>
+          <tr>
+              <th data-field="selected" data-checkbox="true"></th>
+              <th hidden data-field="is_mentor" data-visible="false">Mentor</th>
+              <th data-field="student_id" data-sortable="true">Student ID</th>
+              <th data-field="name" data-sortable="true">First Name</th>
+              <th data-field="surname" data-sortable="true">Last Name</th>
+              <th data-field="email" data-sortable="false">E-mail</th>
+              <th data-field="faculty" data-sortable="true" data-filter-control="select">Faculty</th>
+              <th data-field="program" data-sortable="true">Program</th>
+          </tr>
+          </thead>
+      </table>
+  </div>
+
+  <div class="right-panel">
+
+      <!-- graph -->
+      <div id="engagement-chart-wrapper" style="max-height:137px;position: relative; height: 25%; max-width: 250px;">
+         <canvas id="engagement-chart"></canvas>
+      </div>
+
+      <!-- current group list -->
+      <div class="current-group">
+          <div class="group-mentor">
+              <table class="group-table">
+                  <thead>
+                      <tr><td colspan="3"><div style="margin-top:5px;" class="caption">Faculty</div></td></tr>
+                  </thead>
+                  <tbody class="faculty-table">
+                  </tbody>
+                  <thead>
+                      <tr><td colspan="3"><div style="margin-top:5px;" class="caption">Mentor</div></td></tr>
+                  </thead>
+                  <tbody class="mentors-table">
+                  </tbody>
+                  <thead id="mentees-header">
+                      <tr><td colspan="3"><div style="margin-top:5px;" class="caption">Mentees <p style="display:inline; font-weight:400;" class="mentees-num"></p></div></td></tr>
+                  </thead>
+                  <tbody class="mentees-table">
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+
+  <div class="bottom-left-panel">
+
+        <div id="last-match-faculty-bar" class="progress" style="max-height: 5px;">
+
+            <div class="progress-bar business" data-toggle="tooltip" title="Faculty of Business and IT (10%)"
+                style="width:0%; margin: 0 1px 0 0;"></div>
+
+            <div class="progress-bar education" data-toggle="tooltip" title="Faculty of Education (17%)"
+                style="width:0%; margin: 0 1px 0 1px;"></div>
+
+            <div class="progress-bar engineering" data-toggle="tooltip" title="Faculty of Engineering and Applied Science (23%)"
+                style="width:0%; margin: 0 1px 0 1px;"></div>
+
+            <div class="progress-bar energy" data-toggle="tooltip" title="Faculty of Energy Systems and Nuclear Science (20%)"
+                style="width:0%; margin: 0 1px 0 1px;"></div>
+
+            <div class="progress-bar health" data-toggle="tooltip" title="Faculty of Health Sciences (5%)"
+                style="width:0%; margin: 0 1px 0 1px;"></div>
+
+            <div class="progress-bar science" data-toggle="tooltip" title="Faculty of Science (8%)"
+                style="width:0%; margin: 0 1px 0 1px;"></div>
+
+            <div class="progress-bar social" data-toggle="tooltip" title="Faculty of Social Science and Humanities (17%)"
+                style="width:0%; margin: 0 0 0 1px;"></div>
+        </div>
+  </div>
+
+  <div class="bottom-right-panel">
+
+      <button class="mmm-btn mmm-btn-disabled" style="width: 52%; margin: 0; float: left;">
+          <a style="display:inline-block;">
+              <div>
+                  <img src="{{ url_for('static', filename='./img/download-icon.png') }}" style="height:15px">
+                  <p>ENGAGEMENT</p>
+              </div>
+          </a>
+      </button>
+
+      <button class="mmm-btn" style="width: 45%; margin: 0; float: right;">
+          <a href="/download" style="display:inline-block;">
+              <div>
+                  <img src="{{ url_for('static', filename='./img/download-icon.png') }}" style="height:15px">
+                  <p>MATCHES</p>
+              </div>
+          </a>
+      </button>
+  </div>
+
+</div>
+
+<!-- MODALS -->
+
+<!-- EMAIL STUDENTS MODAL -->
+<div class="modal hide fade" id="modal-email-students" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Email Students</h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="main-components">
+          <!-- instructions -->
+          <div>
+              <p>The selected students will be sent an e-mail, where the content can be specified below.</p>
+              <p style="margin-top:10px;">You may also use the following tags to further personalize your email subject and content:</p>
+              <p>
+                  <code>[FNAME]</code> = Student's <b>first</b> name.<br>
+                  <code>[LNAME]</code> = Student's <b>last</b> name.<br>
+                  <code>[MLIST]</code> = List of <b>mentees</b> in the group.
+              </p>
+          </div> <!-- instructions END -->
+
+          <p style="margin-top:20px;">Subject:</p>
+          <input style="font-weight:300; font-size:0.8em; color:black; height:25px;" type="text" class="form-control">
+          <p style="margin-top: 10px;">Content:</p>
+          <textarea class="form-control" style="line-height: 1.3em; font-weight:300; font-size:0.8em; height:145px; color:black;"></textarea>
+
+          <!-- Checkbox for sending email to the whole group -->
+          <!-- <input type="checkbox" checked><p style="display:inline;"> &nbsp;Also e-mail all mentees assigned to the selected mentors.</p><br> -->
+          <input type="checkbox" checked><p style="display:inline;"> &nbsp;Also e-mail all members in the same group the students selected.</p><br>
+
+          <!-- EMAIL BUTTON  -->
+          <button id="email-students-btn" class="mmm-btn" style="float:right;outline:0;">
+            <a style="display:inline-block;">
+              <div>
+                <img src="/static/img/mail-icon.png" style="height:15px">
+                <p>SEND EMAIL</p>
+              </div>
+            </a>
+          </button>
+      </div>
+
+        <!-- loader -->
+        <div class="row loading-components">
+          <div class="col">
+            <center><div class="loader"></div></center>
+          </div>
+        </div>
+
+        <!-- success message -->
+        <div class="row success-components">
+          <div class="col">
+            <div class="modal-success-body" style="width:100%; text-align:center;">
+              <img src="static/img/green-checkmark.png" style="height:40px; margin-bottom:10px;">
+              <p>E-mail sent.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- error -->
+        <div class="error-components">
+            <p>Please select at least one student to e-mail.</p>
+        </div>
+
+      </div> <!-- modal body END -->
+    </div><!-- modal content END -->
+</div>
+</div>
+
+
+<!-- Manual Assignation Modal -->
+<div class="modal hide fade" id="modal-manual-assignation" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Manual Assignation</h4>
+      </div>
+
+      <div class="modal-body">
+          <div class="manual-section">
+              <p style="display:inline;">Change the current mentor in the dropdown box and click the  </p> <inlinestyle style="color: #61bdc6; display:inline; font-weight:500; font-size:0.8em;">SAVE</inlinestyle> <p style="display:inline;"> button below. If you wish to cancel, just close this window; no changes will be saved.</p>
+              <p>The current mentor for each mentee is marked with a star ( &starf; ) beside their name.</p>
+              <hr>
+
+              <table id="manual-table">
+                  <thead>
+                      <tr>
+                          <td><div style="text-align:center;" class="caption">Faculty</div></td>
+                          <td><div style="text-align:center;" class="caption">Mentee</div></td>
+                          <td><div style="text-align:center;" class="caption">Mentor</div></td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+              </table>
+
+            <hr>
+              <!-- Checkbox for emailing updates to mentors -->
+              <input type="checkbox" checked><p style="display:inline;"> &nbsp;E-mail mentors with updated mentee list.</p><br>
+          </div>
+          <div class="manual-error">
+              <p>Please select at least one mentee for manual assignation.</p>
+          </div>
+          <!-- save button  -->
+          <button type="submit" id="save-manual-assignation-btn" class="mmm-btn" style="float:right; margin-top:10px;">
+            <a style="display:inline-block;">
+              <div><img src="/static/img/save-icon.png" style="height:15px">
+                <p>SAVE</p></div>
+            </a>
+          </button>
+      </div> <!-- end modal body -->
+    </div> <!-- end modal content -->
+    </div>
+  </div>
+  <!-- END MODALS -->
+
+</div>
+
+
+
+<script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-table-filter-control.js') }}"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script> -->

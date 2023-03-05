@@ -1,0 +1,108 @@
+<p id="step2-title" class="page-title"><b>STEP 2:</b> MATCH</p>
+<p style="display:inline;">Below, please select the level of relevance you consider for each of the questions identified. Once you're done, click the </p> <inlinestyle style="color: #61bdc6; display:inline; font-weight:500;">MATCH</inlinestyle> <p style="display:inline;"> button to begin the matching process.<br><br></p>
+<input id="" type="checkbox"><p style="display:inline;"> &nbsp;Merge with most recent matches stored.</p><br>
+
+<!-- table -->
+<div id="step2-left-wrapper" style="display: inline-block; vertical-align: top; width: 55%;">
+    <div id="questions-table-wrapper" style="overflow-y: scroll; overflow-x: auto; max-height: 450px;">
+    </div>
+    <button id="match-btn" class="mmm-btn">
+        <a style="display: block;">
+            <div><p>MATCH</p></div>
+        </a>
+    </button>
+</div>
+
+<!-- loading text and buttons -->
+<div id="step2-right-wrapper" style="max-height:450px; display:inline-block; vertical-align:top; width: 44%;">
+    <div>
+        <div style="display: inline-block; vertical-align: top; width: 10%; text-align:right;">
+            <img id="loading-icon" src="{{ url_for('static', filename='img/step2-loading.gif') }}" class="btn-icon">
+            <img style="display:none;" id="checkmark-icon" src="{{ url_for('static', filename='img/green-checkmark.png') }}" class="btn-icon">
+        </div>
+        <div style="display: inline-block; vertical-align: top; width: 84%;">
+            <p id="match-loading-msg" style="display:inline;"> &nbsp;Matching <b><n></n></b> students...</p>
+            <div id="match-success-msg">
+                <p style="display: inline; color: green;"> &nbsp;<b>Successfully</b></p><p style="display:inline;"> generated <b><n></n></b> groups.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- buttons -->
+    <div id="step2-buttons" style="margin-top: 10px;">
+        <center>
+            <button id="step2-email-mentors" class="mmm-btn"><div>
+                <img src="{{ url_for('static', filename='./img/email-icon.png') }}" class="btn-icon">
+                <p>EMAIL MENTORS</p>
+            </div></button>
+
+            <button id="step2-edit-matches" class="mmm-btn"><div>
+                <img src="{{ url_for('static', filename='./img/view-icon-white.png') }}" class="btn-icon">
+                <p>VIEW MATCHES</p>
+            </div></button>
+
+            <button id="step2-download-btn" class="mmm-btn">
+                <a href="/download" style="display: block;">
+                    <div>
+                        <img src="{{ url_for('static', filename='./img/download-icon.png') }}" class="btn-icon">
+                        <p>DOWNLOAD MATCHES</p>
+                    </div>
+                </a>
+            </button>
+        </center>
+    </div>
+</div>
+
+<!-- EMAIL MENTORS MODAL -->
+<div class="modal hide fade" id="modal-email-mentors" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Email Mentors</h4>
+      </div>
+
+      <div class="modal-body">
+          <form id="mentor-email-form"><div class="form-group">
+            <p style="display:inline; font-weight:400;" id="num-mentors-email"></p>
+            <p style="display:inline;"> Mentors will be sent a list of the mentees that have been assigned to them. You can choose to  a personalized message in said e-mails, which can be redacted below.</p>
+            <p style="margin-top:10px;">You may also use the following tags to personalize your email subject and content:</p>
+            <p>
+                <code>[FNAME]</code> = Mentor's <b>first</b> name.<br>
+                <code>[LNAME]</code> = Mentor's <b>last</b> name.<br>
+                <code>[MLIST]</code> = List of <b>mentees</b> assigned to the mentor.
+            </p>
+            <p style="margin-top:20px;">Subject:</p>
+            <input style="font-weight:300; font-size:0.8em; color:black; height:25px;" type="text" class="form-control" value="Mentee Assignation">
+            <p style="margin-top: 10px;">Content:</p>
+            <textarea class="form-control" style="line-height: 1.3em; font-weight:300; font-size:0.8em; height:145px; color:black;">Hello [FNAME] [LNAME],&#13;&#10;&#13;&#10;Please see the mentees that have been assigned to you below.&#13;&#10;&#13;&#10;[MLIST]&#13;&#10;&#13;&#10;Regards,&#13;&#10;UOIT - Student Experience</textarea>
+
+            <!-- submit button  -->
+            <button type="submit" id="send-email-mentors-btn" class="mmm-btn" style="float:right; margin-top:10px;">
+              <a style="display:inline-block;">
+                <div><img src="/static/img/mail-icon.png" style="height:15px">
+                  <p>SEND EMAIL</p></div>
+              </a>
+            </button>
+        </div></form>
+
+        <!-- success message -->
+        <div class="modal-success-body" style="width:100%; text-align:center; display:none;">
+            <img src="static/img/green-checkmark.png" style="height:40px; margin-bottom:10px;">
+            <p>E-mail sent.</p>
+        </div>
+
+        <!-- loader -->
+        <div class="row loading-components" style="display:none;">
+          <div class="col">
+            <center><div class="loader"></div></center>
+          </div>
+        </div>
+
+      </div> <!-- end modal body -->
+   </div> <!-- end modal content -->
+
+  </div>
+</div>
