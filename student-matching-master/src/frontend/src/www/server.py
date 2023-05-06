@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # matching and data cleaning-related variables
 sys.path.append("./src/scripts/")
-from match import match_all
+from matching.match import match_all
 from clean_data import clean_files
 
 # neo4j
