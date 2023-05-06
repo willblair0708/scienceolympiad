@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 from scipy.optimize import linear_sum_assignment
-from geneticalgorithm2 import geneticalgorithm2 as ga2
 
 # Read CSV files
-mentor_df = pd.read_csv("data/mentor_availability.csv")
-school_df = pd.read_csv("data/modified_schools.csv")
+mentor_df = pd.read_csv("mentor_availability.csv")
+school_df = pd.read_csv("modified_schools.csv")
 
 # Preprocess data
 mentor_df.fillna("", inplace=True)
@@ -27,81 +25,32 @@ def compare_availability(mentor, school):
             for school_slot in school_slots:
                 if check_overlap(mentor_slot, school_slot):
                     overlap_count += 1
-
-    # Add bonus points for supported schools
-    if mentor["school_supported"] == school["school"]:
-        overlap_count += 5
-
     return overlap_count
-
-# Remove mentors with no availability
-mentor_df['total_availability'] = mentor_df[['monday', 'tuesday', 'wednesday', 'thursday', 'friday']].apply(lambda x: ''.join(x), axis=1)
-mentor_df = mentor_df[mentor_df['total_availability'] != ""]
-
-# Reset index of mentor_df
-mentor_df.reset_index(drop=True, inplace=True)
-
-# Sort mentors by head_mentor status
-mentor_df['head_mentor_rank'] = mentor_df['head_mentor'].map({'Yes': 1, 'Maybe': 2, 'No': 3})
-mentor_df.sort_values(by=['head_mentor_rank'], inplace=True)
 
 # Create a cost matrix
 cost_matrix = []
 
-max_mentors_per_school = 3  # Set the maximum number of mentors per school
-
 for _, mentor in mentor_df.iterrows():
     mentor_row = []
     for _, school in school_df.iterrows():
-        availability_score = compare_availability(mentor, school)
-        
-        # Penalize mentors who are not suitable as head mentors
-        if mentor["head_mentor"].lower() not in ["yes", "maybe"]:
-            availability_score -= 1000
-
-        # Penalize mentors who have no overlapping availability with the school
-        if availability_score == 0:
-            availability_score -= 1000
-
-        mentor_row.extend([-availability_score] * max_mentors_per_school)  # Duplicate schools
+        mentor_row.append(-compare_availability(mentor, school))  # Negative values because we're maximizing overlap
     cost_matrix.append(mentor_row)
 
-# Define the fitness function
-def fitness_function(individual):
-    row_ind, col_ind = linear_sum_assignment(np.array(cost_matrix)[individual, :])
-    return -np.sum(np.array(cost_matrix)[individual, :][row_ind, col_ind])
+# Use Hungarian algorithm to find the best match
+row_ind, col_ind = linear_sum_assignment(cost_matrix)
 
-# Set the Genetic Algorithm parameters
-algorithm_param = {'max_num_iteration': 100,
-                   'population_size': 200,
-                   'mutation_probability': 0.2,
-                   'elit_ratio': 0.01,
-                   'crossover_probability': 0.8,
-                   'parents_portion': 0.3,
-                   'crossover_type': 'uniform',
-                   'max_iteration_without_improv': None}
-
-# Initialize the Genetic Algorithm
-model = ga2(function=fitness_function, dimension=len(cost_matrix), variable_type='int', variable_boundaries=np.array([[0, len(cost_matrix) - 1]] * len(cost_matrix)), algorithm_parameters=algorithm_param)
-
-# Run the Genetic Algorithm
-model.run()
-
-# Get the best individual
-best_individual = model.output_dict['variable']
-
-# Store matches in a DataFrame
+# Store matches in a DataFrame and write to a CSV file
 matches = []
 
-for mentor_idx, school_idx in zip(best_individual, np.argmin(cost_matrix, axis=1)):
+for mentor_idx, school_idx in zip(row_ind, col_ind):
     mentor_name = mentor_df.loc[mentor_idx, "mentor_name"]
-    school_name = school_df.loc[school_idx // max_mentors_per_school, "school"]
-    head_mentor = mentor_df.loc[mentor_idx, "head_mentor"]
-    matches.append((mentor_name, school_name, head_mentor))
+    school_name = school_df.loc[school_idx, "school"]
+    matches.append((mentor_name, school_name))
 
-match_df = pd.DataFrame(matches, columns=["Mentor Name", "School", "Head Mentor"])
-# Sort the DataFrame alphabetically by school
-match_df.sort_values(by=['School'], inplace=True)
+# Add mentors with no schools
+for _, mentor in mentor_df.iterrows():
+    if mentor["mentor_name"] not in [match[0] for match in matches]:
+        matches.append((mentor["mentor_name"], ""))
 
-# Write the sorted DataFrame to a CSV file
-match_df.to_csv("data/optimized_mentor_school_matches.csv", index=False)
+match_df = pd.DataFrame(matches, columns=["Mentor Name", "School"])
+match_df.to_csv("optimized_mentor_school_matches.csv", index=False)
