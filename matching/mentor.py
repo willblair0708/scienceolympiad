@@ -3,8 +3,8 @@ import re
 import numpy as np
 import pandas as pd
 
-input_file = 'mentor_data.csv'
-output_file = 'mentor_availability.csv'
+input_file = 'data/mentor_data.csv'
+output_file = 'data/mentor_availability.csv'
 
 def read_mentor_csv(file_path):
     mentors = []
@@ -60,6 +60,8 @@ with open(input_file, 'r') as csvfile:
     for row in reader:
         mentor = {}
         mentor['mentor_name'] = row['full_name']
+        mentor['head_mentor'] = row['head_mentor']
+        mentor['school_supported'] = row['school_supported']
         mentor['monday'] = ' '.join(time_to_timestamp(remove_brackets(row['availability_monday'].replace("Monday ", ""))))
         mentor['tuesday'] = ' '.join(time_to_timestamp(remove_brackets(row['availability_tuesday'].replace("Tuesday ", ""))))
         mentor['wednesday'] = ' '.join(time_to_timestamp(remove_brackets(row['availability_wednesday'].replace("Wednesday ", ""))))
@@ -68,7 +70,7 @@ with open(input_file, 'r') as csvfile:
         mentors.append(mentor)
 
 with open(output_file, 'w', newline='') as csvfile:
-    fieldnames = ['mentor_name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+    fieldnames = ['mentor_name','head_mentor', 'school_supported', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()

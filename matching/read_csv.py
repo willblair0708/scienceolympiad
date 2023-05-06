@@ -42,7 +42,7 @@ def read_mentor_csv(file_path):
     return mentor_data
 
 if __name__ == '__main__':
-    file_path = 'availability.csv'
+    file_path = 'data/availability.csv'
     mentor_data = read_mentor_csv(file_path)
-    mentor_data.to_csv('mentor_data.csv', index=False)
+    mentor_data.to_csv('data/mentor_data.csv', index=False)
 
